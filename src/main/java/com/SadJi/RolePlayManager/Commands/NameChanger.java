@@ -24,7 +24,7 @@ public class NameChanger implements CommandExecutor {
                 if (Name.length == 2){
                     p.setDisplayName(Name[0] + " " + Name[1]);
                     p.setCustomName(Name[0] + " " + Name[1]);
-                    p.setPlayerListName(Name[0] + " " + Name[1]);
+                    p.setPlayerListName(Name[0] + " " + Name[1] + " " + "(" + commandSender.getName() + ")");
                     p.setCustomNameVisible(true);
 
                     p.sendMessage("Ваше имя успешно изменено!");

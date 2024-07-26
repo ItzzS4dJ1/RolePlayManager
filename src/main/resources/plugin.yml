@@ -19,3 +19,9 @@ commands:
   getseason:
     usage: /getseason
     description: get the current season
+  call:
+    usage: /call name
+    description: call somebody
+  getday:
+    usage: /getday
+    description: get current day

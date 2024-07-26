@@ -35,13 +35,32 @@ public class SeasonExpansion extends PlaceholderExpansion {
     }
 
     @Override
+    public boolean canRegister(){
+        return true;
+    }
+
+    @Override
     public String onRequest(OfflinePlayer player, @NotNull String params) {
-        if (params.equalsIgnoreCase("roleplay-season")) {
-            return plugin.getConfig().getString("placeholders.placeholder1", "default1"); //
+        if (params.equalsIgnoreCase("roleplay.season")) {
+            String season = plugin.getConfig().getString("current-season"); //
+            assert season != null;
+            if (season.equalsIgnoreCase("Winter")){
+                return "Зима";
+            }
+            if (season.equalsIgnoreCase("Autumn")){
+                return "Осень";
+            }
+            if (season.equalsIgnoreCase("Summer")){
+                return "Лето";
+            }
+            if (season.equalsIgnoreCase("Spring")){
+                return "Весна";
+            }
+            return null;
         }
 
-        if (params.equalsIgnoreCase("roleplay-day")) {
-            return plugin.getConfig().getString("placeholders.placeholder1", "default1"); //
+        if (params.equalsIgnoreCase("roleplay_day")) {
+            return String.valueOf(plugin.getConfig().getInt("current-day")); //
         }
         return null;
 

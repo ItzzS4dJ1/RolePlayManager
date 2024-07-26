@@ -1,21 +1,23 @@
 package com.SadJi.RolePlayManager;
 
-import com.SadJi.RolePlayManager.Commands.GetSeason;
-import com.SadJi.RolePlayManager.Commands.NameChanger;
-import com.SadJi.RolePlayManager.Commands.SetSeason;
+import com.SadJi.RolePlayManager.Commands.*;
 import com.SadJi.RolePlayManager.Events.ChatListener;
 import com.SadJi.RolePlayManager.Events.MyPlayerListener;
-
 import com.SadJi.RolePlayManager.Events.bandageUse;
 import com.SadJi.RolePlayManager.Tasks.CycleTask;
 import com.SadJi.RolePlayManager.Tasks.DelayedTask;
-import com.SadJi.RolePlayManager.Utility.JobCommand;
+import com.SadJi.RolePlayManager.Commands.JobCommand;
 import com.SadJi.RolePlayManager.Utility.Menu;
 import com.SadJi.RolePlayManager.Utility.SeasonExpansion;
+import com.SadJi.RolePlayManager.Utility.TabManager;
+import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+
 import java.util.logging.Logger;
 
 
@@ -30,9 +32,10 @@ public class RolePlayManagerV3 extends JavaPlugin implements Listener {
     }
     @Override
     public void onEnable ( ) {
-        getConfig().options().copyDefaults();
         saveConfig();
         plugin = this;
+        Long Time = Bukkit.getWorlds().get(0).getTime();
+        Long DayFull = 24000L;
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new SeasonExpansion(this, plugin).register();
@@ -46,6 +49,36 @@ public class RolePlayManagerV3 extends JavaPlugin implements Listener {
         log.info("     Plugin version: TEST");
         log.info("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
 
+        log.info(" ");
+        log.info(ChatColor.GOLD + "Current Time:");
+        log.info(String.valueOf(Time));
+        log.info(" ");
+
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
+            Bukkit.getLogger().warning("PAPI is required to work.");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+        TabManager tab = new TabManager();
+        tab.addHeaderLine("&dТестовый сервер");
+        tab.addHeaderLine("&f1.20.1");
+        tab.addHeaderLine("&f%player_name%");
+        tab.addHeaderLine("&fПинг: %player_ping%");
+        if (getConfig().getBoolean("calls-enabled")){
+            tab.addHeaderLine("&fДень: " + tab.getDaysGone());
+            tab.addHeaderLine("&fВремя года: " + tab.getSeason());
+        }
+        tab.addHeaderLine("&6");
+        tab.addFooterLine("&dСборка сервера: 0.1 BETA");
+
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
+            for(Player player : Bukkit.getOnlinePlayers()) {
+                tab.addServerIPFooter(player);
+                tab.update(player);
+            }
+        }, 0L, 20L);
+
+
         getServer().getPluginManager().registerEvents(new MyPlayerListener(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
         getServer().getPluginManager().registerEvents(new bandageUse(), this);
@@ -55,9 +88,11 @@ public class RolePlayManagerV3 extends JavaPlugin implements Listener {
         getCommand("setseason").setExecutor(new SetSeason());
         getCommand("setseason").setDescription("Ставит сезон");
         getCommand("getseason").setExecutor(new GetSeason());
+        getCommand("call").setExecutor(new Calls());
+        getCommand("getday").setExecutor(new GetDay());
 
         new DelayedTask(this);
-        BukkitTask cycleTask = new CycleTask(this).runTaskTimer(this, 0L, 40L);
+        BukkitTask cycleTask = new CycleTask(this).runTaskTimer(this, (DayFull - Time), 24000L);
     }
     @Override
     public void onDisable () {

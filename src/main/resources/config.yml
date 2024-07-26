@@ -1,4 +1,4 @@
-calls-enables: true
+calls-enabled: true
 current-day: 1
 current-season: 'Summer'
 int-season: 1

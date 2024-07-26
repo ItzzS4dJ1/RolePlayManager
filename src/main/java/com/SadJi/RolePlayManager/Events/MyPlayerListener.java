@@ -32,7 +32,7 @@ public final class MyPlayerListener implements Listener {
         PersistentDataContainer data = pl.getPersistentDataContainer();
         Location location = pl.getLocation();
 
-        if ((pl.getPersistentDataContainer().get(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Job"), PersistentDataType.STRING) != "Miner")) {
+        if ((pl.getPersistentDataContainer().get(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Job"), PersistentDataType.STRING) != "Physical")) {
             if (location.getY() <= 45 && location.getY() >= 25) {
 
                 pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 1));
@@ -75,7 +75,6 @@ public final class MyPlayerListener implements Listener {
 
         if (Objects.requireNonNull(plugin.getConfig().getString("current-season")).equalsIgnoreCase("summer")) {
             if (pl.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.SAND || pl.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == RED_SAND) {
-                System.out.println("Block underneath is sand");
                 int min = 1;
                 int max = 201;
                 int i = random.nextInt(max - min) + min;
@@ -85,7 +84,7 @@ public final class MyPlayerListener implements Listener {
                 }
             }
             if ((pl.getInventory().getHelmet() != null && pl.getInventory().getChestplate() != null && pl.getInventory().getLeggings() != null && pl.getInventory().getBoots() != null)) {
-                pl.setFreezeTicks(150);
+                pl.damage(0.5);
             }
             pl.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 3, 0));
 
@@ -95,16 +94,22 @@ public final class MyPlayerListener implements Listener {
             if (pl.getLocation().getBlock().getRelative(BlockFace.SELF).getType() == FARMLAND
                     || pl.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == DIRT
                     || pl.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == ROOTED_DIRT) {
-
-                System.out.println("Block underneath is wet!");
-                pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3, 0));
+                pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3, 1));
             }
             pl.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 3, 0));
         }
         if (Objects.requireNonNull(plugin.getConfig().getString("current-season")).equalsIgnoreCase("autumn")) {
             Location loc = pl.getLocation();
+            if (pl.getLocation().getBlock().getRelative(BlockFace.SELF).getType() == FARMLAND
+                    || pl.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == DIRT
+                    || pl.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == ROOTED_DIRT) {
+                pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3, 1));
+            }
             if(pl.getLocation().getBlock().getRelative(BlockFace.SELF).getType() == WATER && pl.getLocation().getBlock().getRelative(BlockFace.UP, 2).getType() == AIR && pl.getLocation().getBlock().getRelative(BlockFace.UP, 3).getType() == AIR && pl.getLocation().getBlock().getRelative(BlockFace.UP, 4).getType() == AIR && pl.getLocation().getBlock().getRelative(BlockFace.UP, 5).getType() == AIR && pl.getLocation().getBlock().getRelative(BlockFace.UP, 6).getType() == AIR){
-                pl.setFreezeTicks(50);
+                pl.setFreezeTicks(150);
+            }
+            if(pl.getLocation().getBlock().getRelative(BlockFace.SELF).getType() == WATER && pl.getLocation().getBlock().getRelative(BlockFace.SELF, 1).getType() == WATER){
+                pl.setFreezeTicks(200);
             }
         }
         if (Objects.requireNonNull(plugin.getConfig().getString("current-season")).equalsIgnoreCase("winter")) {
@@ -116,7 +121,11 @@ public final class MyPlayerListener implements Listener {
                 }
             }
             if(pl.getLocation().getBlock().getRelative(BlockFace.SELF).getType() == WATER && pl.getLocation().getBlock().getRelative(BlockFace.UP, 2).getType() == AIR && pl.getLocation().getBlock().getRelative(BlockFace.UP, 3).getType() == AIR && pl.getLocation().getBlock().getRelative(BlockFace.UP, 4).getType() == AIR && pl.getLocation().getBlock().getRelative(BlockFace.UP, 5).getType() == AIR && pl.getLocation().getBlock().getRelative(BlockFace.UP, 6).getType() == AIR){
-                pl.setFreezeTicks(50);
+                pl.setFreezeTicks(200);
+            }
+
+            if(pl.getLocation().getBlock().getRelative(BlockFace.SELF).getType() == WATER && pl.getLocation().getBlock().getRelative(BlockFace.SELF, 1).getType() == WATER){
+                pl.setFreezeTicks(250);
             }
         }
     }
@@ -130,7 +139,7 @@ public final class MyPlayerListener implements Listener {
         } else {
             p.setCustomName(p.getPersistentDataContainer().get(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Name"), PersistentDataType.STRING));
             p.setDisplayName(p.getPersistentDataContainer().get(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Name"), PersistentDataType.STRING));
-            p.setPlayerListName(p.getPersistentDataContainer().get(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Name"), PersistentDataType.STRING));
+            p.setPlayerListName(p.getPersistentDataContainer().get(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Name"), PersistentDataType.STRING) + " " + "(" + p.getName() + ")");
             p.setCustomNameVisible(true);
         }
     }
@@ -155,9 +164,17 @@ public final class MyPlayerListener implements Listener {
         }
         if (player.hasMetadata("OpenedJobs")) {
 
-            if (e.getSlot() == 0) {
+            if (e.getSlot() == 1) {
                 PersistentDataContainer data = player.getPersistentDataContainer();
-                data.set(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Job"), PersistentDataType.STRING, "Miner");
+                data.set(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Job"), PersistentDataType.STRING, "Physical");
+            }
+            if (e.getSlot() == 4) {
+                PersistentDataContainer data = player.getPersistentDataContainer();
+                data.set(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Job"), PersistentDataType.STRING, "Science");
+            }
+            if (e.getSlot() == 7) {
+                PersistentDataContainer data = player.getPersistentDataContainer();
+                data.set(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Job"), PersistentDataType.STRING, "Create");
             }
 
             e.setCancelled(true);

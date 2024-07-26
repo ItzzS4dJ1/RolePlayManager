@@ -1,4 +1,4 @@
-package com.SadJi.RolePlayManager.Utility;
+package com.SadJi.RolePlayManager.Commands;
 
 import com.SadJi.RolePlayManager.RolePlayManagerV3;
 import org.bukkit.Bukkit;
@@ -74,6 +74,33 @@ public class JobCommand implements CommandExecutor {
         brewMeta.setLore(lore3);
         Brewer.setItemMeta(brewMeta);
 
+        ItemStack physicalButton = new ItemStack(Material.IRON_SWORD);
+        ItemMeta physMeta = physicalButton.getItemMeta();
+        physMeta.setDisplayName(ChatColor.GREEN + "Физическая сила");
+        List<String> lorePhys = new ArrayList<>();
+        lorePhys.add(ChatColor.WHITE + "Станьте человеком, чья профессия зависит от силы.");
+        lorePhys.add(ChatColor.GRAY + "Копайтесь в шахте, стройте, занимайтесь всем тем, что требует силу.");
+        physMeta.setLore(lorePhys);
+        physicalButton.setItemMeta(physMeta);
+
+        ItemStack mindButton = new ItemStack(Material.BREWING_STAND);
+        ItemMeta mindMeta = mindButton.getItemMeta();
+        mindMeta.setDisplayName(ChatColor.AQUA + "Умственная способность");
+        List<String> mindLore = new ArrayList<>();
+        mindLore.add(ChatColor.WHITE + "Станьте человеком, чья профессия зависит от ума.");
+        mindLore.add(ChatColor.GRAY + "Исследуйте, создавайте машины, творите будущее. Занимайтесь тем, что требует знания.");
+        mindMeta.setLore(mindLore);
+        mindButton.setItemMeta(mindMeta);
+
+        ItemStack creativityButton = new ItemStack(Material.GLOBE_BANNER_PATTERN);
+        ItemMeta createMeta = creativityButton.getItemMeta();
+        createMeta.setDisplayName(ChatColor.YELLOW + "Творческие навыки");
+        List<String> createLore = new ArrayList<>();
+        createLore.add(ChatColor.WHITE + "Станьте человеком, чья профессия зависит от креативности.");
+        createLore.add(ChatColor.GRAY + "Станьте творческим человеком, рисуйте карты, кастомизируйте предметы, всё что нужно творческой личности.");
+        createMeta.setLore(createLore);
+        creativityButton.setItemMeta(createMeta);
+
 
 
 
@@ -81,13 +108,18 @@ public class JobCommand implements CommandExecutor {
 
         Inventory inventory = Bukkit.createInventory(p, 9, "Выбор работы");
 
+        inventory.setItem(1, physicalButton);
+        inventory.setItem(4, mindButton);
+        inventory.setItem(7, creativityButton);
 
-
-        inventory.setItem(1, pickaxeButton);
-        inventory.setItem(3, bricksButton);
-        inventory.setItem(5, Scientist);
+        //perm. turned off
+        //inventory.setItem(1, pickaxeButton);
+        //inventory.setItem(3, bricksButton);
+        //inventory.setItem(5, Scientist);
         //inventory.setItem(6, Mechanic);
-        inventory.setItem(7, Brewer);
+        //inventory.setItem(7, Brewer);
+        //perm. turned off
+
         p.openInventory(inventory);
         p.setMetadata("OpenedJobs", new FixedMetadataValue(RolePlayManagerV3.getPlugin(), inventory));
         return true;

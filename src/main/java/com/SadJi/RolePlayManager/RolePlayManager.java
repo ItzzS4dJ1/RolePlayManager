@@ -21,13 +21,13 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.logging.Logger;
 
 
-public class RolePlayManagerV3 extends JavaPlugin implements Listener {
+public class RolePlayManager extends JavaPlugin{
     Logger log = getLogger();
 
 
 
-    private static RolePlayManagerV3 plugin;
-    public static RolePlayManagerV3 getPlugin() {
+    private static RolePlayManager plugin;
+    public static RolePlayManager getPlugin() {
         return plugin;
     }
     @Override
@@ -90,6 +90,9 @@ public class RolePlayManagerV3 extends JavaPlugin implements Listener {
         getCommand("getseason").setExecutor(new GetSeason());
         getCommand("call").setExecutor(new Calls());
         getCommand("getday").setExecutor(new GetDay());
+        getCommand("experiment").setExecutor(new Experiments());
+        getCommand("exptest").setExecutor(new ExpTest());
+        getCommand("sethex").setExecutor(new SetHex());
 
         new DelayedTask(this);
         BukkitTask cycleTask = new CycleTask(this).runTaskTimer(this, (DayFull - Time), 24000L);

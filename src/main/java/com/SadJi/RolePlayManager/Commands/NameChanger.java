@@ -1,6 +1,6 @@
 package com.SadJi.RolePlayManager.Commands;
 
-import com.SadJi.RolePlayManager.RolePlayManagerV3;
+import com.SadJi.RolePlayManager.RolePlayManager;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -30,7 +30,7 @@ public class NameChanger implements CommandExecutor {
                     p.sendMessage("Ваше имя успешно изменено!");
 
                     PersistentDataContainer data = p.getPersistentDataContainer();
-                    data.set(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Name"), PersistentDataType.STRING, Name[0] + " " + Name[1]);
+                    data.set(new NamespacedKey(RolePlayManager.getPlugin(), "Name"), PersistentDataType.STRING, Name[0] + " " + Name[1]);
 
 
                 }else {

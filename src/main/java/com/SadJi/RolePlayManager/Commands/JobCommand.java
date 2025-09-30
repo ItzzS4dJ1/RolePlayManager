@@ -1,6 +1,6 @@
 package com.SadJi.RolePlayManager.Commands;
 
-import com.SadJi.RolePlayManager.RolePlayManagerV3;
+import com.SadJi.RolePlayManager.RolePlayManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -121,7 +121,7 @@ public class JobCommand implements CommandExecutor {
         //perm. turned off
 
         p.openInventory(inventory);
-        p.setMetadata("OpenedJobs", new FixedMetadataValue(RolePlayManagerV3.getPlugin(), inventory));
+        p.setMetadata("OpenedJobs", new FixedMetadataValue(RolePlayManager.getPlugin(), inventory));
         return true;
     }
 }

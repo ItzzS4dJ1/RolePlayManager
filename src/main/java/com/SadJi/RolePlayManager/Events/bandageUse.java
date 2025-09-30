@@ -32,9 +32,16 @@ public class bandageUse implements Listener {
 
                 if (clickedEntity instanceof Player) {
                     Player clickedPlayer = (Player) clickedEntity;
-                    clickedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 0));
+                    if (!(clickedPlayer.hasPotionEffect(PotionEffectType.REGENERATION))) {
+                        clickedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 2));
+                    }
+                    else{
+                        clickedPlayer.removePotionEffect(PotionEffectType.REGENERATION);
+                        clickedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 2));
+                    }
                     clickedPlayer.sendMessage("Вас перевязал " + ChatColor.GREEN + player.getDisplayName() + ".");
                     player.sendMessage("Вы перевязали " + ChatColor.of("") + clickedPlayer.getDisplayName());
+                    itemInHand.setAmount(itemInHand.getAmount() - 1);
                 }
             }
         }
@@ -42,14 +49,22 @@ public class bandageUse implements Listener {
     @EventHandler
     public void OnAirBandage(PlayerInteractEvent event){
         Action action = event.getAction();
+        Player p = event.getPlayer();
         ItemStack itemInHand = event.getItem();
         if (action == Action.RIGHT_CLICK_BLOCK){
             if (itemInHand != null && itemInHand.getType() == Material.PAPER) {
                 ItemMeta itemMeta = itemInHand.getItemMeta();
 
                 if (itemMeta != null && itemMeta.hasDisplayName() && itemMeta.getDisplayName().equalsIgnoreCase("бинт")) {
-                    event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 0));
+                    if (!(p.hasPotionEffect(PotionEffectType.REGENERATION))) {
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 2));
+                    }
+                    else{
+                        p.removePotionEffect(PotionEffectType.REGENERATION);
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 2));
+                    }
                     event.getPlayer().sendMessage(ChatColor.of(Color.GREEN) + "Вы перевязались.");
+                    itemInHand.setAmount(itemInHand.getAmount() - 1);
                 }
             }
 

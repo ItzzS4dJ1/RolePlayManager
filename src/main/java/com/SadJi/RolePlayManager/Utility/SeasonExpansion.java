@@ -1,15 +1,15 @@
 package com.SadJi.RolePlayManager.Utility;
 
-import com.SadJi.RolePlayManager.RolePlayManagerV3;
+import com.SadJi.RolePlayManager.RolePlayManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
 public class SeasonExpansion extends PlaceholderExpansion {
 
-    private final RolePlayManagerV3 plugin;
+    private final RolePlayManager plugin;
 
-    public SeasonExpansion(RolePlayManagerV3 rolePlayManagerV3, RolePlayManagerV3 plugin) {
+    public SeasonExpansion(RolePlayManager rolePlayManagerV3, RolePlayManager plugin) {
         this.plugin = plugin;
     }
 

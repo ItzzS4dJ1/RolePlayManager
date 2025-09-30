@@ -1,6 +1,6 @@
 package com.SadJi.RolePlayManager.Utility;
 
-import com.SadJi.RolePlayManager.RolePlayManagerV3;
+import com.SadJi.RolePlayManager.RolePlayManager;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -33,7 +33,7 @@ public class Menu implements CommandExecutor {
         inventory.setItem(4, getButtonCall);
         inventory.setItem(8, getButtonCall);
         p.openInventory(inventory);
-        p.setMetadata("OpenedMenu", new FixedMetadataValue(RolePlayManagerV3.getPlugin(), inventory));
+        p.setMetadata("OpenedMenu", new FixedMetadataValue(RolePlayManager.getPlugin(), inventory));
         return true;
     }
 }

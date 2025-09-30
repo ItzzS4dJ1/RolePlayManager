@@ -1,10 +1,12 @@
 package com.SadJi.RolePlayManager.Events;
 
-import com.SadJi.RolePlayManager.RolePlayManagerV3;
-import com.SadJi.RolePlayManager.Tasks.DelayedTask;
+import com.SadJi.RolePlayManager.RolePlayManager;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.*;
+import org.bukkit.block.Biome;
 import org.bukkit.block.BlockFace;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,6 +14,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
@@ -24,15 +28,14 @@ import static org.bukkit.Material.*;
 
 public final class MyPlayerListener implements Listener {
     Random random = new Random();
-    private final RolePlayManagerV3 plugin = RolePlayManagerV3.getPlugin();
+    private final RolePlayManager plugin = RolePlayManager.getPlugin();
     @EventHandler
     public void PlayerHeight(PlayerMoveEvent event) {
 
         Player pl = event.getPlayer();
-        PersistentDataContainer data = pl.getPersistentDataContainer();
         Location location = pl.getLocation();
 
-        if ((pl.getPersistentDataContainer().get(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Job"), PersistentDataType.STRING) != "Physical")) {
+        if ((!Objects.equals(pl.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "Job"), PersistentDataType.STRING), "Physical"))) {
             if (location.getY() <= 45 && location.getY() >= 25) {
 
                 pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 1));
@@ -74,11 +77,11 @@ public final class MyPlayerListener implements Listener {
 
 
         if (Objects.requireNonNull(plugin.getConfig().getString("current-season")).equalsIgnoreCase("summer")) {
-            if (pl.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.SAND || pl.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == RED_SAND) {
+            if (pl.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == SAND || pl.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == RED_SAND) {
                 int min = 1;
-                int max = 201;
+                int max = 1000;
                 int i = random.nextInt(max - min) + min;
-                if (i == 99) {
+                if (i == 993) {
                     pl.damage(0.5);
                     pl.sendMessage(ChatColor.of("#a62b2b") + "Вы обожглись о песок");
                 }
@@ -86,8 +89,9 @@ public final class MyPlayerListener implements Listener {
             if ((pl.getInventory().getHelmet() != null && pl.getInventory().getChestplate() != null && pl.getInventory().getLeggings() != null && pl.getInventory().getBoots() != null)) {
                 pl.damage(0.5);
             }
-            pl.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 3, 0));
-
+            if (!(pl.hasPotionEffect(PotionEffectType.REGENERATION))) {
+                pl.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 30, 0));
+            }
 
         }
         if (Objects.requireNonNull(plugin.getConfig().getString("current-season")).equalsIgnoreCase("spring")) {
@@ -96,7 +100,9 @@ public final class MyPlayerListener implements Listener {
                     || pl.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == ROOTED_DIRT) {
                 pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3, 1));
             }
-            pl.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 3, 0));
+            if (!(pl.hasPotionEffect(PotionEffectType.REGENERATION))) {
+                pl.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 30, 0));
+            }
         }
         if (Objects.requireNonNull(plugin.getConfig().getString("current-season")).equalsIgnoreCase("autumn")) {
             Location loc = pl.getLocation();
@@ -134,14 +140,22 @@ public final class MyPlayerListener implements Listener {
     public void onJoined(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         String InGameName = p.getDisplayName();
-        if (!p.getPersistentDataContainer().has(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Name"), PersistentDataType.STRING)) {
-            p.getPersistentDataContainer().set(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Name"), PersistentDataType.STRING, InGameName);
+        if (!p.getPersistentDataContainer().has(new NamespacedKey(RolePlayManager.getPlugin(), "Name"), PersistentDataType.STRING)) {
+            p.getPersistentDataContainer().set(new NamespacedKey(RolePlayManager.getPlugin(), "Name"), PersistentDataType.STRING, InGameName);
         } else {
-            p.setCustomName(p.getPersistentDataContainer().get(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Name"), PersistentDataType.STRING));
-            p.setDisplayName(p.getPersistentDataContainer().get(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Name"), PersistentDataType.STRING));
-            p.setPlayerListName(p.getPersistentDataContainer().get(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Name"), PersistentDataType.STRING) + " " + "(" + p.getName() + ")");
+            p.setCustomName(p.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "Name"), PersistentDataType.STRING));
+            p.setDisplayName(p.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "Name"), PersistentDataType.STRING));
+            p.setPlayerListName(p.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "Name"), PersistentDataType.STRING) + " " + "(" + p.getName() + ")");
             p.setCustomNameVisible(true);
         }
+        if (!p.getPersistentDataContainer().has(new NamespacedKey(RolePlayManager.getPlugin(), "Exp_progress"), PersistentDataType.INTEGER)) {
+            p.getPersistentDataContainer().set(new NamespacedKey(RolePlayManager.getPlugin(), "Exp_progress"), PersistentDataType.INTEGER, 0);
+        }
+        if (!p.getPersistentDataContainer().has(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER)) {
+            p.getPersistentDataContainer().set(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER, 0);
+        }
+
+
     }
 
     @EventHandler
@@ -166,18 +180,96 @@ public final class MyPlayerListener implements Listener {
 
             if (e.getSlot() == 1) {
                 PersistentDataContainer data = player.getPersistentDataContainer();
-                data.set(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Job"), PersistentDataType.STRING, "Physical");
+                data.set(new NamespacedKey(RolePlayManager.getPlugin(), "Job"), PersistentDataType.STRING, "Physical");
             }
             if (e.getSlot() == 4) {
                 PersistentDataContainer data = player.getPersistentDataContainer();
-                data.set(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Job"), PersistentDataType.STRING, "Science");
+                data.set(new NamespacedKey(RolePlayManager.getPlugin(), "Job"), PersistentDataType.STRING, "Science");
             }
             if (e.getSlot() == 7) {
                 PersistentDataContainer data = player.getPersistentDataContainer();
-                data.set(new NamespacedKey(RolePlayManagerV3.getPlugin(), "Job"), PersistentDataType.STRING, "Create");
+                data.set(new NamespacedKey(RolePlayManager.getPlugin(), "Job"), PersistentDataType.STRING, "Create");
             }
 
             e.setCancelled(true);
+
+        }
+        if (player.hasMetadata("OpenedExp")) {
+            int progress = player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER);
+            Inventory inv = e.getInventory();
+            if (e.getSlot() >= 12 && e.getSlot() <= 14){
+                if (inv.getItem(e.getSlot()).containsEnchantment(Enchantment.LUCK)){
+                    player.sendMessage(ChatColor.of("#24d240") + "Верно!");
+                    player.playSound((Entity) player, Sound.ITEM_CROP_PLANT, 1, 1);
+                    progress = player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER);
+                    if (progress < 1){
+                        ItemStack GlassPane = new ItemStack(LIGHT_GRAY_STAINED_GLASS_PANE);
+                        e.getInventory().setItem(12, GlassPane);
+                        e.getInventory().setItem(13, GlassPane);
+                        e.getInventory().setItem(14, GlassPane);
+                        player.getPersistentDataContainer().set(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER, (player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER) + 1));
+                    }
+                }
+                if (inv.getItem(e.getSlot()).containsEnchantment(Enchantment.LURE)){
+                    player.sendMessage(ChatColor.of("#9a1212") + "Неверно!");
+                    player.playSound((Entity) player, Sound.ITEM_CROP_PLANT, 1, 1);
+                    player.closeInventory();
+                    player.getPersistentDataContainer().set(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER, 0);
+                }
+            }
+            if (e.getSlot() >= 21 && e.getSlot() <= 23){
+                if (inv.getItem(e.getSlot()).containsEnchantment(Enchantment.LUCK)){
+                    player.sendMessage(ChatColor.of("#24d240") + "Верно!");
+                    player.playSound((Entity) player, Sound.ITEM_CROP_PLANT, 1, 1);
+                    progress = player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER);
+                    if (progress == 1){
+                        ItemStack GlassPane = new ItemStack(LIGHT_GRAY_STAINED_GLASS_PANE);
+                        e.getInventory().setItem(21, GlassPane);
+                        e.getInventory().setItem(22, GlassPane);
+                        e.getInventory().setItem(23, GlassPane);
+                        player.getPersistentDataContainer().set(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER, (player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER) + 1));;
+                    }
+                }
+                if (inv.getItem(e.getSlot()).containsEnchantment(Enchantment.LURE)){
+                    player.sendMessage(ChatColor.of("#9a1212") + "Неверно!");
+                    player.playSound((Entity) player, Sound.ITEM_CROP_PLANT, 1, 1);
+                    player.closeInventory();
+                    player.getPersistentDataContainer().set(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER, 0);
+                }
+            }
+            if (e.getSlot() >= 30 && e.getSlot() <= 32){
+                if (inv.getItem(e.getSlot()).containsEnchantment(Enchantment.LUCK)){
+                    player.sendMessage(ChatColor.of("#24d240") + "Верно!");
+                    player.playSound((Entity) player, Sound.ITEM_CROP_PLANT, 1, 1);
+                    progress = player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER);
+                    if (progress == 2){
+                        player.getPersistentDataContainer().set(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER, (player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER) + 1));;
+                    }
+                    progress = player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER);
+                    if (progress == 3){
+
+                        player.getPersistentDataContainer().set(new NamespacedKey(RolePlayManager.getPlugin(), "Exp_progress"), PersistentDataType.INTEGER, player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "Exp_progress"), PersistentDataType.INTEGER) + 1);
+                        if (player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "Exp_progress"), PersistentDataType.INTEGER) == 12){
+                            player.giveExp(120);
+                            player.sendMessage(ChatColor.of("#24d240") + "Вы завершили исследование!");
+
+                            player.getPersistentDataContainer().set(new NamespacedKey(RolePlayManager.getPlugin(), "Exp_progress"), PersistentDataType.INTEGER, 0);
+                            player.playSound((Entity) player, Sound.ITEM_TOTEM_USE, 0.25F, 0F);
+                        }
+                        player.closeInventory();
+                        progress = 0;
+                    }
+                }
+                if (inv.getItem(e.getSlot()).containsEnchantment(Enchantment.LURE)){
+                    player.sendMessage(ChatColor.of("#9a1212") + "Неверно!");
+                    player.playSound((Entity) player, Sound.ITEM_CROP_PLANT, 1, 1);
+                    player.closeInventory();
+                    player.getPersistentDataContainer().set(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER, 0);
+                }
+
+            }
+            e.setCancelled(true);
+
 
         }
     }
@@ -186,10 +278,13 @@ public final class MyPlayerListener implements Listener {
     public void onClose(InventoryCloseEvent e) {
         Player p = (Player) e.getPlayer();
         if (p.hasMetadata("OpenedMenu")){
-            p.removeMetadata("OpenedMenu", RolePlayManagerV3.getPlugin());
+            p.removeMetadata("OpenedMenu", RolePlayManager.getPlugin());
         }
         if (p.hasMetadata("OpenedJobs")){
-            p.removeMetadata("OpenedJobs", RolePlayManagerV3.getPlugin());
+            p.removeMetadata("OpenedJobs", RolePlayManager.getPlugin());
+        }
+        if (p.hasMetadata("OpenedExp")){
+            p.removeMetadata("OpenedExp", RolePlayManager.getPlugin());
         }
     }
 

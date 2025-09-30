@@ -1,6 +1,6 @@
 package com.SadJi.RolePlayManager.Tasks;
 
-import com.SadJi.RolePlayManager.RolePlayManagerV3;
+import com.SadJi.RolePlayManager.RolePlayManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -8,8 +8,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 // day cycle task //
 public class CycleTask extends BukkitRunnable {
 
-    RolePlayManagerV3 plugin;
-    public CycleTask(RolePlayManagerV3 plugin) {
+    RolePlayManager plugin;
+    public CycleTask(RolePlayManager plugin) {
         this.plugin = plugin;
     }
 

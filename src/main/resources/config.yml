@@ -1,5 +1,27 @@
+#RPM3 features
 calls-enabled: true
 current-day: 1
 current-season: 'Summer'
 int-season: 1
 saved-season: 'Summer'
+
+# Message distances
+NoneRPDistance: 30
+ActionDistance: 25
+EnvironmentDistance: 25
+ShoutDistance: 70
+WhisperDistance: 5
+ChatDistance: 35
+
+#HEX colors of messages
+NRP_color: '#7e7e7e'
+Global_color: '#ffabec'
+Action_color: '#f8ffab'
+Environment_color: '#f6f6f6'
+Shout_color: '#ff5353'
+Whisper_color: '#313733'
+Chat_color: '#b5d2d8'
+
+#Translation
+Whisper: 'Whisper'
+Shout: 'Shout'

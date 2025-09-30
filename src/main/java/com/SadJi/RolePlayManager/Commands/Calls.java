@@ -1,6 +1,6 @@
 package com.SadJi.RolePlayManager.Commands;
 
-import com.SadJi.RolePlayManager.RolePlayManagerV3;
+import com.SadJi.RolePlayManager.RolePlayManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Calls implements CommandExecutor {
 
-    private final RolePlayManagerV3 plugin = RolePlayManagerV3.getPlugin();
+    private final RolePlayManager plugin = RolePlayManager.getPlugin();
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 

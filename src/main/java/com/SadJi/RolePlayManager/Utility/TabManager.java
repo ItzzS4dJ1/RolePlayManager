@@ -1,6 +1,6 @@
 package com.SadJi.RolePlayManager.Utility;
 
-import com.SadJi.RolePlayManager.RolePlayManagerV3;
+import com.SadJi.RolePlayManager.RolePlayManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class TabManager {
 
-    private final RolePlayManagerV3 plugin = RolePlayManagerV3.getPlugin();
+    private final RolePlayManager plugin = RolePlayManager.getPlugin();
     public int daysGone = plugin.getConfig().getInt("current-day");
     public String getSeason(){
         String season = plugin.getConfig().getString("current-season"); //

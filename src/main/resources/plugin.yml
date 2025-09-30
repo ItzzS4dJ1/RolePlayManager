@@ -1,6 +1,6 @@
-name: RolePlayManager_v3
+name: RolePlayManager
 version: '${project.version}'
-main: com.SadJi.RolePlayManager.RolePlayManagerV3
+main: com.SadJi.RolePlayManager.RolePlayManager
 api-version: '1.20'
 softdepend: [PlaceholderAPI]
 commands:
@@ -25,3 +25,12 @@ commands:
   getday:
     usage: /getday
     description: get current day
+  experiment:
+    usage: /experiment
+    description: just to use
+  exptest:
+    usage: /exptest
+    description: use to upraise level of experiments
+  sethex:
+    usage: /sethex args
+    description: sets hex color of something for a specific player. Better use when target is online

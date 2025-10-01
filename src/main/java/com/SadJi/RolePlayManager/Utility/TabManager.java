@@ -14,7 +14,7 @@ public class TabManager {
     public String getSeason(){
         String season = plugin.getConfig().getString("current-season"); //
         assert season != null;
-        String currSeason = " ";
+        String currSeason = "";
         if (season.equalsIgnoreCase("Winter")){
             currSeason = "Зима";
         }

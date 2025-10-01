@@ -38,39 +38,39 @@ public final class MyPlayerListener implements Listener {
         if ((!Objects.equals(pl.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "Job"), PersistentDataType.STRING), "Physical"))) {
             if (location.getY() <= 45 && location.getY() >= 25) {
 
-                pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 1));
+                pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 100, 1));
 
-                pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 1));
+                pl.addPotionEffect(new PotionEffect(PotionEffectType.MINING_FATIGUE, 100, 1));
 
                 location = pl.getLocation();
 
             } else if (location.getY() <= 24) {
 
-                pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 2));
+                pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 100, 2));
 
-                pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 2));
+                pl.addPotionEffect(new PotionEffect(PotionEffectType.MINING_FATIGUE, 100, 2));
 
                 location = pl.getLocation();
 
             } else if (pl.getLocation().getY() >= 46) {
 
-                pl.removePotionEffect(PotionEffectType.SLOW);
+                pl.removePotionEffect(PotionEffectType.SLOWNESS);
 
-                pl.removePotionEffect(PotionEffectType.SLOW_DIGGING);
+                pl.removePotionEffect(PotionEffectType.MINING_FATIGUE);
 
                 location = pl.getLocation();
 
             }
 
         } else if (pl.getLocation().getY() < (-15)) {
-            pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 100, 0));
-            pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 0));
+            pl.addPotionEffect(new PotionEffect(PotionEffectType.MINING_FATIGUE, 100, 0));
+            pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 100, 0));
 
         } else if (pl.getLocation().getY() >= -15) {
 
-            pl.removePotionEffect(PotionEffectType.SLOW);
+            pl.removePotionEffect(PotionEffectType.SLOWNESS);
 
-            pl.removePotionEffect(PotionEffectType.SLOW_DIGGING);
+            pl.removePotionEffect(PotionEffectType.MINING_FATIGUE);
 
             location = pl.getLocation();
         }
@@ -98,7 +98,7 @@ public final class MyPlayerListener implements Listener {
             if (pl.getLocation().getBlock().getRelative(BlockFace.SELF).getType() == FARMLAND
                     || pl.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == DIRT
                     || pl.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == ROOTED_DIRT) {
-                pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3, 1));
+                pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 3, 1));
             }
             if (!(pl.hasPotionEffect(PotionEffectType.REGENERATION))) {
                 pl.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 30, 0));
@@ -109,7 +109,7 @@ public final class MyPlayerListener implements Listener {
             if (pl.getLocation().getBlock().getRelative(BlockFace.SELF).getType() == FARMLAND
                     || pl.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == DIRT
                     || pl.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == ROOTED_DIRT) {
-                pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3, 1));
+                pl.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 3, 1));
             }
             if(pl.getLocation().getBlock().getRelative(BlockFace.SELF).getType() == WATER && pl.getLocation().getBlock().getRelative(BlockFace.UP, 2).getType() == AIR && pl.getLocation().getBlock().getRelative(BlockFace.UP, 3).getType() == AIR && pl.getLocation().getBlock().getRelative(BlockFace.UP, 4).getType() == AIR && pl.getLocation().getBlock().getRelative(BlockFace.UP, 5).getType() == AIR && pl.getLocation().getBlock().getRelative(BlockFace.UP, 6).getType() == AIR){
                 pl.setFreezeTicks(150);
@@ -198,7 +198,7 @@ public final class MyPlayerListener implements Listener {
             int progress = player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER);
             Inventory inv = e.getInventory();
             if (e.getSlot() >= 12 && e.getSlot() <= 14){
-                if (inv.getItem(e.getSlot()).containsEnchantment(Enchantment.LUCK)){
+                if (inv.getItem(e.getSlot()).containsEnchantment(Enchantment.FORTUNE)){
                     player.sendMessage(ChatColor.of("#24d240") + "Верно!");
                     player.playSound((Entity) player, Sound.ITEM_CROP_PLANT, 1, 1);
                     progress = player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER);
@@ -218,7 +218,7 @@ public final class MyPlayerListener implements Listener {
                 }
             }
             if (e.getSlot() >= 21 && e.getSlot() <= 23){
-                if (inv.getItem(e.getSlot()).containsEnchantment(Enchantment.LUCK)){
+                if (inv.getItem(e.getSlot()).containsEnchantment(Enchantment.FORTUNE)){
                     player.sendMessage(ChatColor.of("#24d240") + "Верно!");
                     player.playSound((Entity) player, Sound.ITEM_CROP_PLANT, 1, 1);
                     progress = player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER);
@@ -238,7 +238,7 @@ public final class MyPlayerListener implements Listener {
                 }
             }
             if (e.getSlot() >= 30 && e.getSlot() <= 32){
-                if (inv.getItem(e.getSlot()).containsEnchantment(Enchantment.LUCK)){
+                if (inv.getItem(e.getSlot()).containsEnchantment(Enchantment.FORTUNE)){
                     player.sendMessage(ChatColor.of("#24d240") + "Верно!");
                     player.playSound((Entity) player, Sound.ITEM_CROP_PLANT, 1, 1);
                     progress = player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "progress"), PersistentDataType.INTEGER);

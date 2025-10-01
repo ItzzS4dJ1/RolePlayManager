@@ -5,7 +5,16 @@ current-season: 'Summer'
 int-season: 1
 saved-season: 'Summer'
 
-# Message distances
+#Seasons expansion
+seasons-enabled: true
+namespace: "rpm" #used as namespace of your datapack containing seasons' biomes.
+summer-name: "summer" #name of the summer biome that will be used when summer comes
+autumn-name: "autumn" #name of the autumn biome that will be used when autumn comes
+winter-name: "winter" #name of the winter biome that will be used when winter comes
+spring-name: "spring" #name of the spring biome that will be used when spring comes
+#Default values are used in the datapack I provide with plugin. It's free. Downloaded separately
+
+#Message distances
 NoneRPDistance: 30
 ActionDistance: 25
 EnvironmentDistance: 25

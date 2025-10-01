@@ -4,13 +4,15 @@ import com.SadJi.RolePlayManager.Commands.*;
 import com.SadJi.RolePlayManager.Events.ChatListener;
 import com.SadJi.RolePlayManager.Events.MyPlayerListener;
 import com.SadJi.RolePlayManager.Events.bandageUse;
-import com.SadJi.RolePlayManager.Tasks.CycleTask;
+import com.SadJi.RolePlayManager.Tasks.CycleSeasonTask;
 import com.SadJi.RolePlayManager.Tasks.DelayedTask;
 import com.SadJi.RolePlayManager.Commands.JobCommand;
 import com.SadJi.RolePlayManager.Utility.Menu;
+import com.SadJi.RolePlayManager.Utility.SeasonChanger;
 import com.SadJi.RolePlayManager.Utility.SeasonExpansion;
 import com.SadJi.RolePlayManager.Utility.TabManager;
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.clip.placeholderapi.PlaceholderHook;
 import org.bukkit.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -46,7 +48,7 @@ public class RolePlayManager extends JavaPlugin{
         log.info("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
         log.info("  Plugin Enabled Successfully");
         log.info("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
-        log.info("     Plugin version: TEST");
+        log.info("     Plugin version: DEV");
         log.info("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
 
         log.info(" ");
@@ -77,6 +79,11 @@ public class RolePlayManager extends JavaPlugin{
                 tab.update(player);
             }
         }, 0L, 20L);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
+            for(Player player : Bukkit.getOnlinePlayers()) {
+                SeasonChanger.updateBiome(player);
+            }
+        }, 10L, 50L);
 
 
         getServer().getPluginManager().registerEvents(new MyPlayerListener(), this);
@@ -95,7 +102,7 @@ public class RolePlayManager extends JavaPlugin{
         getCommand("sethex").setExecutor(new SetHex());
 
         new DelayedTask(this);
-        BukkitTask cycleTask = new CycleTask(this).runTaskTimer(this, (DayFull - Time), 24000L);
+        BukkitTask cycleSeasonTask = new CycleSeasonTask(this).runTaskTimer(this, (DayFull - Time), 24000L);
     }
     @Override
     public void onDisable () {

@@ -6,10 +6,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 // day cycle task //
-public class CycleTask extends BukkitRunnable {
+public class CycleSeasonTask extends BukkitRunnable {
 
     RolePlayManager plugin;
-    public CycleTask(RolePlayManager plugin) {
+    public CycleSeasonTask(RolePlayManager plugin) {
         this.plugin = plugin;
     }
 

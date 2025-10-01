@@ -79,7 +79,7 @@ public class Experiments implements CommandExecutor {
         ItemStack buttonRight = new ItemStack(Material.BREWING_STAND);
         ItemMeta buttonRightMeta = buttonRight.getItemMeta();
 
-        buttonRightMeta.addEnchant(Enchantment.LUCK, 1, true);
+        buttonRightMeta.addEnchant(Enchantment.FORTUNE, 1, true);
 
         buttonRightMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 

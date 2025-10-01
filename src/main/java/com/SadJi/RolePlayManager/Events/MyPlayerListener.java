@@ -3,7 +3,7 @@ package com.SadJi.RolePlayManager.Events;
 import com.SadJi.RolePlayManager.RolePlayManager;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.*;
-import org.bukkit.block.Biome;
+
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
@@ -26,7 +26,7 @@ import java.util.Random;
 
 import static org.bukkit.Material.*;
 
-public final class MyPlayerListener implements Listener {
+public class MyPlayerListener implements Listener {
     Random random = new Random();
     private final RolePlayManager plugin = RolePlayManager.getPlugin();
     @EventHandler

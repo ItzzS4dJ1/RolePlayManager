@@ -32,14 +32,14 @@ public class Calls implements CommandExecutor {
                       new ComponentBuilder("Нажмите, чтобы ответить!").color(ChatColor.of("#60ff38")).create()));
               TextComponent decline = new TextComponent("Отклонить ");
               decline.setColor(ChatColor.of("#cf2525"));
-              decline.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + user.getName() + " отклонил ваш вызов"));
+              decline.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + user.getName() + " " + "отклонил ваш вызов"));
               decline.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                       new ComponentBuilder("Нажмите, чтобы отклонить!").color(ChatColor.of("#af1717")).create()));
 
               if (plugin.getConfig().getBoolean("calls-enabled")){
-                  abonent.sendMessage(ChatColor.of("#6db31b") + "Вам звонит " + user.getName());
+                  abonent.sendMessage(ChatColor.of("#6db31b") + "Вам звонит"+" " + user.getName());
                   abonent.spigot().sendMessage(decline, answer);
-                  user.sendMessage(ChatColor.of("#bf5281") + "Вы позвонили " + abonent.getDisplayName());
+                  user.sendMessage(ChatColor.of("#bf5281") + "Вы позвонили"+" " + abonent.getDisplayName());
               } else {user.sendMessage("Нет связи!");}
 
             } else {sender.sendMessage("Слишком много/мало аргументов");}

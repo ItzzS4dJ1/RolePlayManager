@@ -54,7 +54,7 @@ public class Experiments implements CommandExecutor {
                 int hoursLeft = (int) timeLeft/100/60/60;
                 int minutesLeft = (int) timeLeft/100/60 - hoursLeft*60;
                 int secondsLeft = (int) timeLeft/100 - hoursLeft*60*60;
-                player.sendMessage(ChatColor.DARK_RED + "Подождите " + hoursLeft + " часов " + minutesLeft + " минут" + " перед использованием.");
+                player.sendMessage(ChatColor.DARK_RED + "Подождите"+" " + hoursLeft + " "+"часов " + minutesLeft + " "+"минут" + " "+"перед использованием.");
                 return true;
             }
 

@@ -10,7 +10,6 @@ import com.SadJi.RolePlayManager.Commands.JobCommand;
 import com.SadJi.RolePlayManager.Utility.Menu;
 import com.SadJi.RolePlayManager.Utility.SeasonChanger;
 import com.SadJi.RolePlayManager.Utility.SeasonExpansion;
-import com.SadJi.RolePlayManager.Utility.TabManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.PlaceholderHook;
 import org.bukkit.ChatColor;
@@ -61,24 +60,7 @@ public class RolePlayManager extends JavaPlugin{
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
-        TabManager tab = new TabManager();
-        tab.addHeaderLine("&dТестовый сервер");
-        tab.addHeaderLine("&f1.20.1");
-        tab.addHeaderLine("&f%player_name%");
-        tab.addHeaderLine("&fПинг: %player_ping%");
-        if (getConfig().getBoolean("calls-enabled")){
-            tab.addHeaderLine("&fДень: " + tab.getDaysGone());
-            tab.addHeaderLine("&fВремя года: " + tab.getSeason());
-        }
-        tab.addHeaderLine("&6");
-        tab.addFooterLine("&dСборка сервера: 0.1 BETA");
 
-        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
-            for(Player player : Bukkit.getOnlinePlayers()) {
-                tab.addServerIPFooter(player);
-                tab.update(player);
-            }
-        }, 0L, 20L);
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
             for(Player player : Bukkit.getOnlinePlayers()) {
                 SeasonChanger.updateBiome(player);

@@ -34,3 +34,6 @@ Chat_color: '#b5d2d8'
 #Translation
 Whisper: 'Whisper'
 Shout: 'Shout'
+
+#Localization
+Language: 'ru'

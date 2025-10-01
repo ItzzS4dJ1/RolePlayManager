@@ -1,6 +1,7 @@
 package com.SadJi.RolePlayManager.Events;
 
 import com.SadJi.RolePlayManager.RolePlayManager;
+import com.SadJi.RolePlayManager.Utility.Localization;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,9 +14,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.awt.*;
+import java.io.File;
 import java.util.Objects;
 
-public final class ChatListener implements Listener {
+public class ChatListener implements Listener {
 
     @EventHandler
     public void RP_Check(AsyncPlayerChatEvent event) {
@@ -35,8 +37,8 @@ public final class ChatListener implements Listener {
         int Distance = config.getInt("ChatDistance");
 
         //Translations
-        String WhisperMSG = config.getString("Whisper");
-        String ShoutMSG = config.getString("Shout");
+        String WhisperMSG = Localization.getLocalized("Whisper");
+        String ShoutMSG = Localization.getLocalized("Shout");
 
         //Colors
         String hexNRP = config.getString("NRP_color");

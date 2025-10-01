@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabManager {
+public class TabManager { // disabled
 
     private final RolePlayManager plugin = RolePlayManager.getPlugin();
     public int daysGone = plugin.getConfig().getInt("current-day");

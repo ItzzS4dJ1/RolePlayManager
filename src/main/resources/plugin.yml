@@ -35,3 +35,7 @@ commands:
   sethex:
     usage: /sethex args
     description: sets hex color of something for a specific player. Better use when target is online
+permissions:
+  RolePlayManager.admin:
+    default: op
+    description: admin perms of the plugin

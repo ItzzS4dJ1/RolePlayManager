@@ -13,11 +13,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.awt.*;
-import java.io.File;
 import java.util.Objects;
 
 public class ChatListener implements Listener {
+
+    FileConfiguration localize = Localization.getFile();
+    String whisperLocalized = localize.getString("Whisper");
+    String shoutLocalized = localize.getString("Shout");
 
     @EventHandler
     public void RP_Check(AsyncPlayerChatEvent event) {
@@ -37,8 +39,8 @@ public class ChatListener implements Listener {
         int Distance = config.getInt("ChatDistance");
 
         //Translations
-        String WhisperMSG = Localization.getLocalized("Whisper");
-        String ShoutMSG = Localization.getLocalized("Shout");
+        String WhisperMSG = whisperLocalized;
+        String ShoutMSG = shoutLocalized;
 
         //Colors
         String hexNRP = config.getString("NRP_color");

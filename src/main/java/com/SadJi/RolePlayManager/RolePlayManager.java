@@ -6,16 +6,13 @@ import com.SadJi.RolePlayManager.Events.MyPlayerListener;
 import com.SadJi.RolePlayManager.Events.bandageUse;
 import com.SadJi.RolePlayManager.Tasks.CycleSeasonTask;
 import com.SadJi.RolePlayManager.Tasks.DelayedTask;
-import com.SadJi.RolePlayManager.Commands.JobCommand;
+import com.SadJi.RolePlayManager.Utility.Localization;
 import com.SadJi.RolePlayManager.Utility.Menu;
 import com.SadJi.RolePlayManager.Utility.SeasonChanger;
 import com.SadJi.RolePlayManager.Utility.SeasonExpansion;
-import me.clip.placeholderapi.PlaceholderAPI;
-import me.clip.placeholderapi.PlaceholderHook;
-import org.bukkit.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -67,6 +64,8 @@ public class RolePlayManager extends JavaPlugin{
             }
         }, 10L, 50L);
 
+        Localization.init();
+
 
         getServer().getPluginManager().registerEvents(new MyPlayerListener(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
@@ -88,6 +87,7 @@ public class RolePlayManager extends JavaPlugin{
     }
     @Override
     public void onDisable () {
+        Localization.save();
         saveConfig();
         log.info("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
         log.info("   SadJi's RolePlay Manager");

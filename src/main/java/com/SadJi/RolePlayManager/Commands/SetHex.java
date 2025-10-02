@@ -1,12 +1,14 @@
 package com.SadJi.RolePlayManager.Commands;
 
 import com.SadJi.RolePlayManager.RolePlayManager;
+import com.SadJi.RolePlayManager.Utility.Localization;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -14,10 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SetHex implements TabExecutor {
+    FileConfiguration localize = Localization.getFile();
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!(commandSender instanceof Player)) return false;
         if (strings.length != 3) return false;
+        if (!commandSender.hasPermission("RolePlayManager.admin")) return false;
 
         Player p = (Player) commandSender;
         Player tp = Bukkit.getPlayer(strings[0]);
@@ -47,8 +51,10 @@ public class SetHex implements TabExecutor {
                 tp.getPersistentDataContainer().set(new NamespacedKey(RolePlayManager.getPlugin(), "hexGlobal"), PersistentDataType.STRING, hexColor);
                 break;
         }
-
-        p.sendMessage("<RP_Chat> Changed color of " + hexType + " to " + ChatColor.of(hexColor) + "color.");
+        String changedColorOf = localize.getString("ChangedColorOf");
+        String toColor = localize.getString("ToColor");
+        String colorString = localize.getString("ColorString");
+        p.sendMessage("<Chat handler>" + ' ' + changedColorOf + ' ' + hexType + ' ' + toColor + ' ' + ChatColor.of(hexColor) + colorString);
         return true;
     }
     @Override

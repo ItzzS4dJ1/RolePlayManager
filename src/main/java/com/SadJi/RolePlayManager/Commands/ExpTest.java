@@ -15,26 +15,28 @@ import org.jetbrains.annotations.NotNull;
 public class ExpTest implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player){
-            Player player = (Player) sender;
-            if (player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "Exp_progress"), PersistentDataType.INTEGER) == 5){
-                player.giveExp(120);
-                player.sendMessage(ChatColor.of("#24d240") + "Вы завершили исследование!");
+        if (sender instanceof Player) {
+            if (sender.hasPermission("RolePlayManager.admin")) {
+                Player player = (Player) sender;
+                if (player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "Exp_progress"), PersistentDataType.INTEGER) == 5) {
+                    player.giveExp(120);
+                    player.sendMessage(ChatColor.of("#24d240") + "Вы завершили исследование!");
 
-                player.getPersistentDataContainer().set(new NamespacedKey(RolePlayManager.getPlugin(), "Exp_progress"), PersistentDataType.INTEGER, 0);
-                player.playSound((Entity) player, Sound.ITEM_TOTEM_USE, 0.25F, 0F);
+                    player.getPersistentDataContainer().set(new NamespacedKey(RolePlayManager.getPlugin(), "Exp_progress"), PersistentDataType.INTEGER, 0);
+                    player.playSound((Entity) player, Sound.ITEM_TOTEM_USE, 0.25F, 0F);
+                } else {
+                    int pdcExp = player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "Exp_progress"), PersistentDataType.INTEGER);
+                    pdcExp += 1;
+                    player.sendMessage("+1 level");
+                }
+                return true;
+            } else {
+                sender.sendMessage("No, you can't use this command");
             }
-            else {
-                int pdcExp = player.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "Exp_progress"), PersistentDataType.INTEGER);
-                pdcExp += 1;
-                player.sendMessage("+1 level");
-            }
-            return true;
+        } else{
+                    sender.sendMessage(ChatColor.RED + "No, you can't use this command");
+                    return true;
         }
-        else {
-            sender.sendMessage(ChatColor.RED + "No, you can't use this command");
-            return true;
-        }
-
+        return false;
     }
 }

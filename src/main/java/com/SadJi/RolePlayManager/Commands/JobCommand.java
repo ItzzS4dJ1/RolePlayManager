@@ -1,13 +1,14 @@
 package com.SadJi.RolePlayManager.Commands;
 
 import com.SadJi.RolePlayManager.RolePlayManager;
+import com.SadJi.RolePlayManager.Utility.Localization;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Item;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -15,110 +16,91 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class JobCommand implements CommandExecutor {
+
+    FileConfiguration localize = Localization.getFile();
+
+    String onlyForPlayers = localize.getString("OnlyForPlayers");
+    String physicalPower = localize.getString("PhysicalPower");
+    String physDesc1 = localize.getString("PhysicalPowerDesc1");
+    String physDesc2 = localize.getString("PhysicalPowerDesc2");
+    String brainpower = localize.getString("Brainpower");
+    String brainpowerDesc1 = localize.getString("BrainpowerDesc1");
+    String brainpowerDesc2 = localize.getString("BrainpowerDesc2");
+    String creativityPower = localize.getString("CreativityPower");
+    String creativityDesc1 = localize.getString("CreativityDesc1");
+    String creativityDesc2 = localize.getString("CreativityDesc2");
+    String chooseYourSkill = localize.getString("ChooseYourSkill");
+    String waitMsg = localize.getString("Wait");
+    String hMsg = localize.getString("Hours");
+    String mMsg = localize.getString("Minutes");
+    String beforeUsing = localize.getString("BeforeUsing");
+
+    public final HashMap<UUID, Long> cooldown;
+
+    public JobCommand() {
+        this.cooldown = new HashMap<>();
+    }
+
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-
         if (!(commandSender instanceof Player)){
-            commandSender.sendMessage("ONLY FOR PLAYERS");
+            commandSender.sendMessage(onlyForPlayers);
         }
         Player p = (Player) commandSender;
 
-        ItemStack pickaxeButton = new ItemStack(Material.IRON_PICKAXE);
-        ItemMeta MinerMeta = pickaxeButton.getItemMeta();
-        MinerMeta.setDisplayName(ChatColor.DARK_AQUA + "Шахтер");
-        List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.WHITE + "Нейтрализует дебаффы подземничества.");
-        lore.add(ChatColor.GRAY + "Копайтесь в шахте и не заходите ну уж слишком глубоко.");
-        MinerMeta.setLore(lore);
-        pickaxeButton.setItemMeta(MinerMeta);
+        // check cooldown
+        if (this.cooldown.containsKey(p.getUniqueId())){
+            long timeElapsed = System.currentTimeMillis() - this.cooldown.get(p.getUniqueId());
 
-        ItemStack bricksButton = new ItemStack(Material.BRICKS);
-        ItemMeta BuilderMeta = bricksButton.getItemMeta();
-        BuilderMeta.setDisplayName(ChatColor.GOLD + "Строитель");
-        bricksButton.setItemMeta(BuilderMeta);
-        List<String> lore0 = new ArrayList<>();
-        lore0.add(ChatColor.WHITE + "Строитель. Одна из важнейших профессий нового мира");
-        lore0.add(ChatColor.GRAY + "Дает полное право строить постройки, в т.ч. на заказ");
-        BuilderMeta.setLore(lore0);
-        bricksButton.setItemMeta(BuilderMeta);
 
-        ItemStack Scientist = new ItemStack(Material.COMMAND_BLOCK);
-        ItemMeta ScienceMeta = bricksButton.getItemMeta();
-        ScienceMeta.setDisplayName(ChatColor.WHITE + "Учёный");
-        List<String> lore1 = new ArrayList<>();
-        lore1.add(ChatColor.WHITE + "Будь гением мира сего и восстанавливай труды человечества.");
-        lore1.add(ChatColor.GRAY + "(В будущем планируется мини-игра)");
-        ScienceMeta.setLore(lore1);
-        Scientist.setItemMeta(ScienceMeta);
+            if (timeElapsed < 25920000){ // 3h
+                long timeLeft = 25920000 - timeElapsed;
+                int hoursLeft = (int) timeLeft/100/60/60;
+                int minutesLeft = (int) timeLeft/100/60 - hoursLeft*60;
+                p.sendMessage(net.md_5.bungee.api.ChatColor.DARK_RED + waitMsg+" " + hoursLeft + " "+hMsg+" " + minutesLeft + " "+mMsg + " "+beforeUsing);
+                return true;
+            }
 
-        ItemStack Mechanic = new ItemStack(Material.COMMAND_BLOCK_MINECART);
-        ItemMeta mechMeta = Mechanic.getItemMeta();
-        mechMeta.setDisplayName(ChatColor.AQUA + "Механик");
-        Mechanic.setItemMeta(BuilderMeta);
-        List<String> lore2 = new ArrayList<>();
-        lore2.add(ChatColor.WHITE + "Механик. способен собрать машины.");
-        lore2.add(ChatColor.GRAY + "Вы сможете продавать эти же машины");
-        mechMeta.setLore(lore2);
-        Mechanic.setItemMeta(mechMeta);
-
-        ItemStack Brewer = new ItemStack(Material.BREWING_STAND);
-        ItemMeta brewMeta = Brewer.getItemMeta();
-        brewMeta.setDisplayName(ChatColor.RED + "Бармен");
-        Brewer.setItemMeta(brewMeta);
-        List<String> lore3 = new ArrayList<>();
-        lore3.add(ChatColor.WHITE + "Вы сможете варить напитки. В т.ч. алкоголь");
-        lore3.add(ChatColor.GRAY + "Алкогольные напитки, наркотик прошлого дожил и до будущего.");
-        brewMeta.setLore(lore3);
-        Brewer.setItemMeta(brewMeta);
+        }
+        this.cooldown.put(p.getUniqueId(), System.currentTimeMillis());
 
         ItemStack physicalButton = new ItemStack(Material.IRON_SWORD);
         ItemMeta physMeta = physicalButton.getItemMeta();
-        physMeta.setDisplayName(ChatColor.GREEN + "Физическая сила");
+        physMeta.setDisplayName(ChatColor.GREEN + physicalPower);
         List<String> lorePhys = new ArrayList<>();
-        lorePhys.add(ChatColor.WHITE + "Станьте человеком, чья профессия зависит от силы.");
-        lorePhys.add(ChatColor.GRAY + "Копайтесь в шахте, стройте, занимайтесь всем тем, что требует силу.");
+        lorePhys.add(ChatColor.WHITE + physDesc1);
+        lorePhys.add(ChatColor.GRAY + physDesc2);
         physMeta.setLore(lorePhys);
         physicalButton.setItemMeta(physMeta);
 
         ItemStack mindButton = new ItemStack(Material.BREWING_STAND);
         ItemMeta mindMeta = mindButton.getItemMeta();
-        mindMeta.setDisplayName(ChatColor.AQUA + "Умственная способность");
+        mindMeta.setDisplayName(ChatColor.AQUA + brainpower);
         List<String> mindLore = new ArrayList<>();
-        mindLore.add(ChatColor.WHITE + "Станьте человеком, чья профессия зависит от ума.");
-        mindLore.add(ChatColor.GRAY + "Исследуйте, создавайте машины, творите будущее. Занимайтесь тем, что требует знания.");
+        mindLore.add(ChatColor.WHITE + brainpowerDesc1);
+        mindLore.add(ChatColor.GRAY + brainpowerDesc2);
         mindMeta.setLore(mindLore);
         mindButton.setItemMeta(mindMeta);
 
         ItemStack creativityButton = new ItemStack(Material.GLOBE_BANNER_PATTERN);
         ItemMeta createMeta = creativityButton.getItemMeta();
-        createMeta.setDisplayName(ChatColor.YELLOW + "Творческие навыки");
+        createMeta.setDisplayName(ChatColor.YELLOW + creativityPower);
         List<String> createLore = new ArrayList<>();
-        createLore.add(ChatColor.WHITE + "Станьте человеком, чья профессия зависит от креативности.");
-        createLore.add(ChatColor.GRAY + "Станьте творческим человеком, рисуйте карты, кастомизируйте предметы, всё что нужно творческой личности.");
+        createLore.add(ChatColor.WHITE + creativityDesc1);
+        createLore.add(ChatColor.GRAY + creativityDesc2);
         createMeta.setLore(createLore);
         creativityButton.setItemMeta(createMeta);
 
-
-
-
-
-
-        Inventory inventory = Bukkit.createInventory(p, 9, "Выбор работы");
+        Inventory inventory = Bukkit.createInventory(p, 9, chooseYourSkill);
 
         inventory.setItem(1, physicalButton);
         inventory.setItem(4, mindButton);
         inventory.setItem(7, creativityButton);
-
-        //perm. turned off
-        //inventory.setItem(1, pickaxeButton);
-        //inventory.setItem(3, bricksButton);
-        //inventory.setItem(5, Scientist);
-        //inventory.setItem(6, Mechanic);
-        //inventory.setItem(7, Brewer);
-        //perm. turned off
 
         p.openInventory(inventory);
         p.setMetadata("OpenedJobs", new FixedMetadataValue(RolePlayManager.getPlugin(), inventory));

@@ -1,7 +1,9 @@
 package com.SadJi.RolePlayManager.Events;
 
+import com.SadJi.RolePlayManager.Utility.Localization;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,6 +21,15 @@ import org.bukkit.potion.PotionEffectType;
 import java.awt.*;
 
 public class bandageUse implements Listener {
+
+    FileConfiguration localize = Localization.getFile();
+
+    String youHealedSelf = localize.getString("YouHealedSelf");
+    String youHealedSomeone = localize.getString("YouHealedSomeone");
+    String youGotHealed = localize.getString("YouGotHealed");
+    String bandageItemName = localize.getString("BandageItemName");
+
+
     @EventHandler
     public void bandageUsed(PlayerInteractEntityEvent event) {
         Player player = event.getPlayer();
@@ -27,7 +38,7 @@ public class bandageUse implements Listener {
         if (itemInHand != null && itemInHand.getType() == Material.PAPER) {
             ItemMeta itemMeta = itemInHand.getItemMeta();
 
-            if (itemMeta != null && itemMeta.hasDisplayName() && itemMeta.getDisplayName().equalsIgnoreCase("бинт")) {
+            if (itemMeta != null && itemMeta.hasDisplayName() && itemMeta.getDisplayName().equalsIgnoreCase(bandageItemName)) {
                 Entity clickedEntity = event.getRightClicked();
 
                 if (clickedEntity instanceof Player) {
@@ -39,8 +50,8 @@ public class bandageUse implements Listener {
                         clickedPlayer.removePotionEffect(PotionEffectType.REGENERATION);
                         clickedPlayer.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 2));
                     }
-                    clickedPlayer.sendMessage("Вас перевязал " + ChatColor.GREEN + player.getDisplayName() + ".");
-                    player.sendMessage("Вы перевязали " + ChatColor.of("") + clickedPlayer.getDisplayName());
+                    clickedPlayer.sendMessage(youGotHealed+" " + ChatColor.GREEN + player.getDisplayName() + ".");
+                    player.sendMessage(ChatColor.GREEN + youHealedSomeone +" " + ChatColor.of("#5df542") + clickedPlayer.getDisplayName());
                     itemInHand.setAmount(itemInHand.getAmount() - 1);
                 }
             }
@@ -55,7 +66,7 @@ public class bandageUse implements Listener {
             if (itemInHand != null && itemInHand.getType() == Material.PAPER) {
                 ItemMeta itemMeta = itemInHand.getItemMeta();
 
-                if (itemMeta != null && itemMeta.hasDisplayName() && itemMeta.getDisplayName().equalsIgnoreCase("бинт")) {
+                if (itemMeta != null && itemMeta.hasDisplayName() && itemMeta.getDisplayName().equalsIgnoreCase(bandageItemName)) {
                     if (!(p.hasPotionEffect(PotionEffectType.REGENERATION))) {
                         p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 2));
                     }
@@ -63,7 +74,7 @@ public class bandageUse implements Listener {
                         p.removePotionEffect(PotionEffectType.REGENERATION);
                         p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 120, 2));
                     }
-                    event.getPlayer().sendMessage(ChatColor.of(Color.GREEN) + "Вы перевязались.");
+                    event.getPlayer().sendMessage(ChatColor.of(Color.GREEN) + youHealedSelf);
                     itemInHand.setAmount(itemInHand.getAmount() - 1);
                 }
             }

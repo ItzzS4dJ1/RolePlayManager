@@ -32,8 +32,8 @@ public class JobCommand implements CommandExecutor {
     String brainpowerDesc1 = localize.getString("BrainpowerDesc1");
     String brainpowerDesc2 = localize.getString("BrainpowerDesc2");
     String creativityPower = localize.getString("CreativityPower");
-    String creativityDesc1 = localize.getString("CreativityDesc1");
-    String creativityDesc2 = localize.getString("CreativityDesc2");
+    String creativityDesc1 = localize.getString("CreativityPowerDesc1");
+    String creativityDesc2 = localize.getString("CreativityPowerDesc2");
     String chooseYourSkill = localize.getString("ChooseYourSkill");
     String waitMsg = localize.getString("Wait");
     String hMsg = localize.getString("Hours");

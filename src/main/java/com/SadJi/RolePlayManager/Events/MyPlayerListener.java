@@ -143,10 +143,8 @@ public class MyPlayerListener implements Listener {
         if (!p.getPersistentDataContainer().has(new NamespacedKey(RolePlayManager.getPlugin(), "Name"), PersistentDataType.STRING)) {
             p.getPersistentDataContainer().set(new NamespacedKey(RolePlayManager.getPlugin(), "Name"), PersistentDataType.STRING, InGameName);
         } else {
-            p.setCustomName(p.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "Name"), PersistentDataType.STRING));
             p.setDisplayName(p.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "Name"), PersistentDataType.STRING));
             p.setPlayerListName(p.getPersistentDataContainer().get(new NamespacedKey(RolePlayManager.getPlugin(), "Name"), PersistentDataType.STRING) + " " + "(" + p.getName() + ")");
-            p.setCustomNameVisible(true);
         }
         if (!p.getPersistentDataContainer().has(new NamespacedKey(RolePlayManager.getPlugin(), "Exp_progress"), PersistentDataType.INTEGER)) {
             p.getPersistentDataContainer().set(new NamespacedKey(RolePlayManager.getPlugin(), "Exp_progress"), PersistentDataType.INTEGER, 0);

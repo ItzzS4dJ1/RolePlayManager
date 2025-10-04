@@ -2,7 +2,6 @@ name: RolePlayManager
 version: '${project.version}'
 main: com.SadJi.RolePlayManager.RolePlayManager
 api-version: '1.21.4'
-load: STARTUP
 softdepend: [PlaceholderAPI]
 commands:
   name:
@@ -35,6 +34,13 @@ commands:
   sethex:
     usage: /sethex args
     description: sets hex color of something for a specific player. Better use when target is online
+    permission: RolePlayManager.admin
+    permission-message: You don't have enough rights
+  namecolor:
+    usage: /namecolor player hex-color
+    description: sets hex color of something for a specific player. Better use when target is online
+    permission: RolePlayManager.admin
+    permission-message: You don't have enough rights
 permissions:
   RolePlayManager.admin:
     default: op

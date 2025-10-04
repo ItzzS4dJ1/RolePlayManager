@@ -2,15 +2,13 @@ package com.SadJi.RolePlayManager.Utility;
 
 import com.SadJi.RolePlayManager.RolePlayManager;
 import net.kyori.adventure.key.Key;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.block.Biome;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.enchantments.Enchantment;
-import io.papermc.paper.registry.RegistryAccess;
-import io.papermc.paper.registry.RegistryKey;
+
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
 
 public class SeasonChanger {
 
@@ -24,15 +22,20 @@ public class SeasonChanger {
     private static String winterName = config.getString("winter-name");
     private static String springName = config.getString("spring-name");
 
-    private static Key summerKey = Key.key(namespace, summerName);
-    private static Key autumnKey = Key.key(namespace, autumnName);
-    private static Key winterKey = Key.key(namespace, winterName);
-    private static Key springKey = Key.key(namespace, springName);
+    private static final NamespacedKey summerNKey = new NamespacedKey(namespace, summerName);
+    private static final NamespacedKey autumnNKey = new NamespacedKey(namespace, autumnName);
+    private static final NamespacedKey winterNKey = new NamespacedKey(namespace, winterName);
+    private static final NamespacedKey springNKey = new NamespacedKey(namespace, springName);
 
-    private static Biome biomeSummer = Registry.BIOME.get(summerKey);
-    private static Biome biomeAutumn = Registry.BIOME.get(autumnKey);
-    private static Biome biomeWinter = Registry.BIOME.get(winterKey);
-    private static Biome biomeSpring = Registry.BIOME.get(springKey);
+/*    private static Key summerKey = Key.key(namespace, summerName);
+    private static Key autumnKey = Key.key(namespace, autumnName);              PAPER FORMAT
+    private static Key winterKey = Key.key(namespace, winterName);
+    private static Key springKey = Key.key(namespace, springName);*/
+
+    private static final Biome biomeSummer = Registry.BIOME.get(summerNKey);
+    private static final Biome biomeAutumn = Registry.BIOME.get(autumnNKey);
+    private static final Biome biomeWinter = Registry.BIOME.get(winterNKey);
+    private static final Biome biomeSpring = Registry.BIOME.get(springNKey);
 
     public static void updateBiome(Player pl){
         if(config.getBoolean("seasons-enabled")){

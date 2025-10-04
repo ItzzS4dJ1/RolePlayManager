@@ -30,7 +30,7 @@ public class RolePlayManager extends JavaPlugin{
     }
     @Override
     public void onEnable ( ) {
-        saveConfig();
+        saveDefaultConfig();
         plugin = this;
         Long Time = Bukkit.getWorlds().get(0).getTime();
         Long DayFull = 24000L;
@@ -48,7 +48,7 @@ public class RolePlayManager extends JavaPlugin{
         log.info("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
 
         log.info(" ");
-        log.info(ChatColor.GOLD + "Current Time:");
+        log.info("Current Time:");
         log.info(String.valueOf(Time));
         log.info(" ");
 
@@ -58,12 +58,13 @@ public class RolePlayManager extends JavaPlugin{
             return;
         }
 
-        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
+        /*Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
             for(Player player : Bukkit.getOnlinePlayers()) {
                 SeasonChanger.updateBiome(player);
             }
-        }, 10L, 50L);
-
+        }, 10L, 50L);*/
+        saveResource("ru.yml", false);
+        saveResource("en.yml", false);
         Localization.init();
 
 
@@ -81,6 +82,7 @@ public class RolePlayManager extends JavaPlugin{
         getCommand("experiment").setExecutor(new Experiments());
         getCommand("exptest").setExecutor(new ExpTest());
         getCommand("sethex").setExecutor(new SetHex());
+        getCommand("namecolor").setExecutor(new SetNameColor());
 
         new DelayedTask(this);
         BukkitTask cycleSeasonTask = new CycleSeasonTask(this).runTaskTimer(this, (DayFull - Time), 24000L);

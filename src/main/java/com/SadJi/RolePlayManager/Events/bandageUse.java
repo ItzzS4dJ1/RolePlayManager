@@ -33,7 +33,7 @@ public class bandageUse implements Listener {
     @EventHandler
     public void bandageUsed(PlayerInteractEntityEvent event) {
         Player player = event.getPlayer();
-        ItemStack itemInHand = player.getActiveItem();
+        ItemStack itemInHand = player.getItemInUse();
 
         if (itemInHand != null && itemInHand.getType() == Material.PAPER) {
             ItemMeta itemMeta = itemInHand.getItemMeta();

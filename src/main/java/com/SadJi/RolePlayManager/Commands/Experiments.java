@@ -54,7 +54,10 @@ public class Experiments implements CommandExecutor {
         String beforeUsing = localize.getString("BeforeUsing");
         String experimentBttn = localize.getString("ExperimentButton");
 
-        if (!((Player) commandSender).getPersistentDataContainer().get(new NamespacedKey(plugin, "Job"), PersistentDataType.STRING).equalsIgnoreCase("science")) return false;
+        if (!((Player) commandSender).getPersistentDataContainer().get(new NamespacedKey(plugin, "Job"), PersistentDataType.STRING).equalsIgnoreCase("science")) {
+            player.sendMessage(localize.getString("NeedScienceError"));
+            return false;
+        }
 
         // check cooldown
         if (this.cooldown.containsKey(player.getUniqueId())){

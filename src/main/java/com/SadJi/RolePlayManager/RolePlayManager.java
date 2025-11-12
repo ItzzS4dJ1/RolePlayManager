@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 public class RolePlayManager extends JavaPlugin{
     Logger log = getLogger();
-    String version = getPlugin().getDescription().getVersion();
+
 
 
 
@@ -32,6 +32,7 @@ public class RolePlayManager extends JavaPlugin{
         plugin = this;
         Long Time = Bukkit.getWorlds().get(0).getTime();
         Long DayFull = 24000L;
+        String version = getPlugin().getDescription().getVersion();
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new SeasonExpansion(this, plugin).register();

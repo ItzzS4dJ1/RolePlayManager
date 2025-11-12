@@ -1,5 +1,5 @@
 name: RolePlayManager
-version: '${project.version}'
+version: "DEV"
 main: com.SadJi.RolePlayManager.RolePlayManager
 api-version: '1.21.4'
 softdepend: [PlaceholderAPI]

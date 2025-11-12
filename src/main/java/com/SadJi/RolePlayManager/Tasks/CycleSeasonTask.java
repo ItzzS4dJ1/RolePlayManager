@@ -4,7 +4,10 @@ import com.SadJi.RolePlayManager.RolePlayManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.logging.Logger;
 
 // day cycle task //
 public class CycleSeasonTask extends BukkitRunnable {
@@ -57,7 +60,8 @@ public class CycleSeasonTask extends BukkitRunnable {
             case 4:
                 cfg.set("current-season", "Winter");
             default:
-                System.out.println("ERROR! Module: seasons cycling");
+                Logger logger = RolePlayManager.getPlugin().getLogger();
+                logger.warning("ERROR! Module: seasons cycling");
         }
 
     }

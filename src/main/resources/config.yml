@@ -1,12 +1,19 @@
 #RPM3 features
 calls-enabled: true
+jobs-enabled: true
+month: 1
+year: 2388
+days-per-month: 20
+months-per-season: 1 #full year is a cycle of 4 seasons. Once winter starts, a new year begins.
 current-day: 1
-current-season: 'Summer'
-int-season: 1
-saved-season: 'Summer'
+
 
 #Seasons expansion
 seasons-enabled: true
+
+current-season: 'Summer'
+int-season: 1
+saved-season: 'Summer'
 namespace: "rpm" #used as namespace of your datapack containing seasons' biomes.
 summer-name: "summer" #name of the summer biome that will be used when summer comes
 autumn-name: "autumn" #name of the autumn biome that will be used when autumn comes
@@ -30,10 +37,6 @@ Environment_color: '#f6f6f6'
 Shout_color: '#ff5353'
 Whisper_color: '#313733'
 Chat_color: '#b5d2d8'
-
-#Translation
-Whisper: 'Whisper'
-Shout: 'Shout'
 
 #Localization
 Language: 'ru.yml'

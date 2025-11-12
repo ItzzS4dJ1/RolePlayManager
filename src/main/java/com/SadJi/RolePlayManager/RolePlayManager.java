@@ -2,17 +2,14 @@ package com.SadJi.RolePlayManager;
 
 import com.SadJi.RolePlayManager.Commands.*;
 import com.SadJi.RolePlayManager.Events.ChatListener;
-import com.SadJi.RolePlayManager.Events.MyPlayerListener;
+import com.SadJi.RolePlayManager.Events.PlayerListener;
 import com.SadJi.RolePlayManager.Events.bandageUse;
 import com.SadJi.RolePlayManager.Tasks.CycleSeasonTask;
 import com.SadJi.RolePlayManager.Tasks.DelayedTask;
 import com.SadJi.RolePlayManager.Utility.Localization;
 import com.SadJi.RolePlayManager.Utility.Menu;
-import com.SadJi.RolePlayManager.Utility.SeasonChanger;
 import com.SadJi.RolePlayManager.Utility.SeasonExpansion;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -21,6 +18,7 @@ import java.util.logging.Logger;
 
 public class RolePlayManager extends JavaPlugin{
     Logger log = getLogger();
+    String version = getPlugin().getDescription().getVersion();
 
 
 
@@ -44,7 +42,7 @@ public class RolePlayManager extends JavaPlugin{
         log.info("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
         log.info("  Plugin Enabled Successfully");
         log.info("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
-        log.info("     Plugin version: DEV");
+        log.info("     Plugin version: " + version);
         log.info("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
 
         log.info(" ");
@@ -63,19 +61,18 @@ public class RolePlayManager extends JavaPlugin{
                 SeasonChanger.updateBiome(player);
             }
         }, 10L, 50L);*/
-        saveResource("ru.yml", false);
-        saveResource("en.yml", false);
+
+        saveResource("ru.yml", true);
+        saveResource("en.yml", true);
         Localization.init();
 
-
-        getServer().getPluginManager().registerEvents(new MyPlayerListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
         getServer().getPluginManager().registerEvents(new bandageUse(), this);
         getCommand("name").setExecutor(new NameChanger());
         getCommand("menu").setExecutor(new Menu());
         getCommand("job").setExecutor(new JobCommand());
         getCommand("setseason").setExecutor(new SetSeason());
-        getCommand("setseason").setDescription("Ставит сезон");
         getCommand("getseason").setExecutor(new GetSeason());
         getCommand("call").setExecutor(new Calls());
         getCommand("getday").setExecutor(new GetDay());

@@ -20,6 +20,7 @@ public class SetNameColor implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (sender instanceof Player && !sender.hasPermission("RolePlayManager.admin")) return false;
 
         if (Bukkit.getPlayer(args[0]) instanceof Player){
 
